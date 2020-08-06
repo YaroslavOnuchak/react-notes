@@ -18,7 +18,7 @@ export const FirebaseState = ({ children }) => {
   const fetchNotes = async () => {
     showLoader();
     const res = await axios.get(`${url}/notes.json`);
-    
+
     const payload = Object.keys(res.data).map((key) => {
       return { ...res.data[key], id: key };
     });
@@ -29,8 +29,11 @@ export const FirebaseState = ({ children }) => {
   const addNote = async (title) => {
     const note = {
       title,
-      date: new Date().toJSON(),
+      date: new Date()
+        .toString()
+        .slice(0, new Date().toString().indexOf("G") + 6),
     };
+    // console.log("object", new Date().toJSON());
     try {
       const res = await axios.post(`${url}/notes.json`, note);
       console.log("addNote", res.data);
